@@ -1,0 +1,3 @@
+unit : obj/UnitTest.o
+obj/UnitTest.o : src/UnitTest.cpp inc/UnitTest.h
+	g++ -c -o obj/UnitTest.cpp -I inc src/chess.cpp
