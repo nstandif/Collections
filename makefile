@@ -3,7 +3,7 @@ BST_TEST_BIN=binaries/bst-test
 
 LL_TEST_OBJ=obj/LinkedList-Test.o obj/LinkedList.o
 BST_TEST_OBJ=obj/bst-test.o obj/BST.o
-FLAGS=-Wall -c -o
+FLAGS=-Wall -c -g -o
 CHKS=~/Projects/CppCheckStyle/CppCheckStyle
 
 all : clean testbin
@@ -16,11 +16,11 @@ checkstyle :
 testbin : $(LL_TEST_BIN) $(BST_TEST_BIN)
 
 $(LL_TEST_BIN) : $(LL_TEST_OBJ)
-	g++ -Wall -o $(LL_TEST_BIN) $(LL_TEST_OBJ)
+	g++ -Wall -g -o $(LL_TEST_BIN) $(LL_TEST_OBJ)
 	chmod ugo+x $(LL_TEST_BIN)
 
 $(BST_TEST_BIN) : $(BST_TEST_OBJ)
-	g++ -Wall -o $(BST_TEST_BIN) $(BST_TEST_OBJ)
+	g++ -Wall -g -o $(BST_TEST_BIN) $(BST_TEST_OBJ)
 	chmod ugo+x $(BST_TEST_BIN)
 
 obj/LinkedList-Test.o : source/LinkedList-Test.cpp libraries/utils/inc/UnitTest.h \
@@ -35,13 +35,15 @@ obj/bst-test.o : source/bst-test.cpp libraries/utils/inc/UnitTest.h\
 obj/LinkedList.o : source/LinkedList.cpp include/LinkedList.h
 	g++ $(FLAGS) obj/LinkedList.o -I include source/LinkedList.cpp
 
-obj/BST.o : source/BST.cpp include/BST.h
+obj/BST.o : source/BST.cpp include/BST.h objdir
 	g++ $(FLAGS) obj/BST.o -I include source/BST.cpp
+objdir :
+	mkdir -p obj
 
 runtests : testbin
 	$(LL_TEST_BIN)
 	$(BST_TEST_BIN)
-clean :
+clean : objdir
 	- echo "Removing generated files"
 	- rm -f obj/*
 	- rm -f binaries/*

@@ -9,6 +9,7 @@
 #include <iostream>
 using namespace std;
 
+
 void addData(LinkedList & l) {
   for(int i = 0; i < testDataSize; i++)
     l.Insert(testData[i],NULL);
@@ -17,13 +18,14 @@ void addData(LinkedList & l) {
 bool LinkedList::Test(ostream & os) {
   
   bool success = true;  
-
+  cout << "size" << endl;
   LinkedList l; // initialize
   TEST(l.GetSize() == 0);
   
   l.Insert(testData[0],NULL);
   TEST(l.GetSize() == 1);
-
+  
+  cout << "first and last init" << endl;
   LLNode * firstNode = l.GetFirst();
   LLNode * lastNode  = l.GetLast();
   TEST(firstNode == lastNode);
@@ -31,12 +33,23 @@ bool LinkedList::Test(ostream & os) {
   l.Insert(testData[1],firstNode);
   lastNode = l.GetLast();
   TEST(firstNode != lastNode);
+  TEST(lastNode->prev == firstNode);
+  TEST(firstNode->next == lastNode);
+  
+  
+  l.Insert("stuff",NULL);
+  TEST(l.first->value == "stuff");
+
+  cout << "find" << endl;
+  TEST(l.Find("stuff",NULL));
+  TEST(!l.Find("stuff",l.first));
+  TEST(!l.Find("stuff",l.last));
 
   l.Clear();
   TEST(l.GetSize() == 0);
-
+  TEST(!l.first);
+  TEST(!l.last);
   addData(l);
-  
   TEST(l.GetSize() == testDataSize);
   TEST(!l.IsEmpty());
   l.Clear();

@@ -49,10 +49,13 @@ bool BST::Test(ostream & os) {
   
   printTest("GetRoot()");
   TEST(t.root == t.GetRoot());
+  BST empty;
+  TEST(!empty.GetRoot());
 
   printTest("Insert()");
   for(int i = 0; i < TEST_DATA_SIZE; i++) {
     t.Insert(testData[i]);
+    TEST(!t.Insert(testData[i]));
   }
 
   TEST(t.GetSize() == TEST_DATA_SIZE);
@@ -82,10 +85,28 @@ bool BST::Test(ostream & os) {
   t2->root->value = "fred";
   TEST(t2->root->value != t.root->value);
   
+  printTest("operator=");
   BST t1;
   t1 = *t2 = t;
   TEST(t1.GetRoot()->value == t.GetRoot()->value);
   
+  printTest("copy Constructor");
+  t2 = new BST(t);
+  n = new BSTNode(s);
+  t2->root->value = s;
+  t2->root->left = new BSTNode("stuff");
+  t2->root->right = new BSTNode("random");
+  TEST(t2->root->left != t.root->left);
+  TEST(t2->root->right != t.root->right);
+  TEST(t2->root->value != t.root->value);
+
+  // Empty
+  t2 = new BST(empty);
+  TEST(t2->GetSize() == 0);
+  TEST(!t2->GetRoot());
+  
+  
+
   return success;
 }
 

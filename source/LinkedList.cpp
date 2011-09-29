@@ -33,7 +33,7 @@ LinkedList::copy(const LinkedList & other) {
   Clear();
   LLNode * current = other.first;
   while(current) {
-    Insert(current->value,NULL);
+    Insert(current->value,last);
     current = current->next;
   }
 }
@@ -85,7 +85,10 @@ LinkedList::Insert(const string & v, LLNode * n) {
   }
 
   if(!current) {
-    current = last;
+    node->next = first;
+    first->prev = node;
+    first = node;
+    return node;
   }
  
   node->prev = current;
@@ -101,8 +104,12 @@ LinkedList::Insert(const string & v, LLNode * n) {
 
 LLNode *
 LinkedList::Find(const string & v, LLNode * n)const {
-  LLNode * current = advance(first,n);
-  return LinkedList::FindS(v,current);
+  if(n == NULL) {
+    return LinkedList::FindS(v,first);
+  } else {
+    LLNode * current = advance(first,n);
+    return LinkedList::FindS(v,current->next);
+  }
 }
 
 LLNode *

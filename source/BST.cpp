@@ -8,7 +8,7 @@
 #include <string>
 using namespace std;
 
-BST::BST() : size(0) {
+BST::BST() : root(NULL),size(0) {
 
 }
 
@@ -82,7 +82,7 @@ BSTNode * BST::Insert(const string & v) {
 BSTNode * BST::InsertS(const string & v, BSTNode * p) {
   if(v == p->value) {
     size--;
-    return p;
+    return NULL;
   } else if (p->value > v) {
     if(p->left) {
       return InsertS(v,p->left);
