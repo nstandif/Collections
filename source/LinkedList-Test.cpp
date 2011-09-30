@@ -35,7 +35,8 @@ bool LinkedList::Test(ostream & os) {
   TEST(firstNode != lastNode);
   TEST(lastNode->prev == firstNode);
   TEST(firstNode->next == lastNode);
-  
+  firstNode = NULL;
+  lastNode = NULL;
   
   l.Insert("stuff",NULL);
   TEST(l.first->value == "stuff");

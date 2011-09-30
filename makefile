@@ -5,9 +5,17 @@ LL_TEST_OBJ=obj/LinkedList-Test.o obj/LinkedList.o
 BST_TEST_OBJ=obj/bst-test.o obj/BST.o
 FLAGS=-Wall -c -g -o
 CHKS=~/Projects/CppCheckStyle/CppCheckStyle
+VAL_ARGS=--tool=memcheck --leak-check=yes --max-stackframe=5000000 --show-reachable=yes --suppressions=libraries/valgrind/string.supp  
 
 all : clean testbin
 
+valgrind : valg-bst valg-linkedlist
+
+valg-bst : $(BST_TEST_BIN)
+	valgrind $(VAL_ARGS) --log-file=bst.valgrind $(BST_TEST_BIN)
+
+valg-linkedlist : $(LL_TEST_BIN)
+	valgrind $(VAL_ARGS) --log-file=list.valgrind $(LL_TEST_BIN)
 
 checkstyle : 
 	$(CHKS) include/*.h

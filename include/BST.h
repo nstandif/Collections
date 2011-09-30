@@ -129,6 +129,7 @@ class BST {
 		BSTNode * InsertS(const std::string & v, BSTNode * p);
 		BSTNode * FindS(const std::string & v, BSTNode * p)const;
 		BSTNode * root;
+		void ClearR(BSTNode * n);
 		int size;
 };
 

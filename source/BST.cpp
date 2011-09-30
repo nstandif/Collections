@@ -13,18 +13,31 @@ BST::BST() : root(NULL),size(0) {
 }
 
 BST::BST(const BST & other) {
-    copy(other);
+  root = NULL;
+  size = 0;
+  copy(other);
 }
 
 BST::~BST() {
-
+  ClearR(root);
 }
+
+void BST::ClearR(BSTNode * n) {
+  if(n) {
+    if(n->left)
+      ClearR(n->left);
+    if(n->right)
+      ClearR(n->right);
+    delete n;
+  }
+}
+
+
 void BST::copy(const BST & other) {
-  Clear();
   rcopy(other.GetRoot());
 }
 
-    void BST::rcopy(const BSTNode * n) {
+void BST::rcopy(const BSTNode * n) {
   if(n == NULL)
     return;
    
@@ -35,18 +48,14 @@ void BST::copy(const BST & other) {
   
   if(n->GetRight())
     Insert(n->GetRight()->GetValue());
-  
   rcopy(n->GetLeft());
   rcopy(n->GetRight());
 }
 
 
 BST& BST::operator= (const BST & other) {
-  if(this == &other) {
-    BST * temp = new BST(other);
-    copy(*temp);
-    temp = NULL;
-  } else {
+  if(this != &other) {
+    Clear();
     copy(other);
   }
   return *this;
@@ -61,8 +70,9 @@ bool BST::IsEmpty()const {
 }
 
 void BST::Clear() {
-  root = NULL;
-  size = 0;
+    ClearR(root);
+    root = NULL;
+    size = 0;
 }
 
 int BST::GetSize()const {

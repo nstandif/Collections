@@ -12,17 +12,13 @@ using namespace std;
 LinkedList::LinkedList() : first(NULL),last(NULL),size(0) {
 }
 
-LinkedList::LinkedList(const LinkedList & other) {
+LinkedList::LinkedList(const LinkedList & other) : first(NULL), last(NULL), size(0) {
   copy(other);
 }
 
 LinkedList &
 LinkedList::operator= (const LinkedList & other) {
-  if(this == &other) {
-    LinkedList * temp = new LinkedList(other);
-    copy(*temp);
-    temp = NULL;
-  } else {
+  if(this != &other) {
     copy(other);
   }
   return *this;
@@ -39,6 +35,7 @@ LinkedList::copy(const LinkedList & other) {
 }
 
 LinkedList::~LinkedList() {
+  Clear();
 }
 
 bool
@@ -48,9 +45,8 @@ LinkedList::IsEmpty()const {
 
 void
 LinkedList::Clear() {
-  first = NULL;
-  last = NULL;
-  size = 0;
+  while(size)
+    Remove(first);
 }
 
 int
@@ -75,7 +71,8 @@ LinkedList::Insert(const string & v, LLNode * n) {
   if(!first) {
     first = node;
     last = first;
-    return node;
+    node = NULL;
+    return first;
   }
 
   LLNode * current = NULL; 
@@ -88,7 +85,8 @@ LinkedList::Insert(const string & v, LLNode * n) {
     node->next = first;
     first->prev = node;
     first = node;
-    return node;
+    node = NULL;
+    return first;
   }
  
   node->prev = current;
@@ -142,7 +140,9 @@ LinkedList::Equals(LLNode * n1, LLNode * n2)const {
 void
 LinkedList::Remove(LLNode * n) {
   if(first == last && n == first) {
-    Clear();
+    size = 0;
+    first = NULL;
+    last = NULL;
   } else if(n == first) {
     n->next->prev = NULL;
     first = n->next;
@@ -159,5 +159,6 @@ LinkedList::Remove(LLNode * n) {
       size--;
     }
   }
+  delete n;
   n = NULL;
 }
